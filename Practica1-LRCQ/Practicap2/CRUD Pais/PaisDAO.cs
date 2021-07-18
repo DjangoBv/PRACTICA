@@ -46,15 +46,45 @@ namespace Practicap2.CRUD_Pais
             ListaPais();
             Console.Write("\nIngrese el ID del cliente a editar: ");
             int idPais= Convert.ToInt32(Console.ReadLine());
-            Console.Write("\nIngrese el nuevo nombre: ");
-            string nombrePais = Console.ReadLine();
-            using (var db = new conDB_EF())
+            Console.Write("\nQue desea editar: ");
+            Console.Write("\n1.Nombre");
+            Console.Write("\n2.Codigo");
+            Console.Write("\nIngrese el numero: ");
+            int num = Convert.ToInt32(Console.ReadLine());
+            string rpta = "N";
+            do
             {
-                tbPais pais = db.tbPais.Find(idPais);
-                pais.nombrePais = nombrePais;
-                db.SaveChanges();
-                Console.WriteLine("El registro con código " + idPais + " se editó correctamente.");
-            }
+                switch (num)
+                {
+                    case 1:
+                        Console.Write("\nIngrese el nuevo nombre: ");
+                        string nombrePais = Console.ReadLine();
+                        using (var db = new conDB_EF())
+                        {
+                            tbPais pais = db.tbPais.Find(idPais);
+                            pais.nombrePais = nombrePais;
+                            db.SaveChanges();
+                            Console.WriteLine("El registro con código " + idPais + " se editó correctamente.");
+                        }
+                        break;
+                    case 2:
+                        Console.Write("\nIngrese el nuevo codigo de pais: ");
+                        string codPais = Console.ReadLine();
+                        using (var db = new conDB_EF())
+                        {
+                            tbPais pais = db.tbPais.Find(idPais);
+                            pais.codigoPais = codPais;
+                            db.SaveChanges();
+                            Console.WriteLine("El registro con código " + idPais + " se editó correctamente.");
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Valor ingresado incorrecto");
+                        Console.Write("¿Desea continuar? (S/N)");
+                        rpta = Console.ReadLine();
+                        break;
+                }
+            } while(rpta == "S" || rpta == "s");
         }
     }
 }
