@@ -11,6 +11,7 @@ namespace Practicap2.CRUD_Cliente
     {
         public void ListaCliente()
         {
+
             Console.Clear();
             List<tbCliente> listaCli = new List<tbCliente>();
             using (var db = new conDB_EF())
@@ -20,7 +21,7 @@ namespace Practicap2.CRUD_Cliente
             Console.WriteLine("Lista de Categoría");
             foreach (var item in listaCli)
             {
-                Console.WriteLine(item.idCliente);
+                Console.WriteLine(item.idCliente + "\t" + item.nombreCliente + "\t" + item.apellidosCliente + "\t" + item.fechaNacimiento +"\t" + item.dniCliente);
             }
         }
         public void RegistraCliente()
@@ -29,7 +30,13 @@ namespace Practicap2.CRUD_Cliente
             Console.WriteLine("Registrar Nombre");
             Console.Write("\nIngrese nombre Cliente: ");
             string nombreCli = Console.ReadLine();
-            tbCliente cliente = new tbCliente { nombreCliente = nombreCli };
+            Console.Write("\nIngrese apellido Cliente: ");
+            string apellidoCli = Console.ReadLine();
+            Console.Write("\nIngrese fecha Cliente: ");
+            DateTime fechaCli = Convert.ToDateTime(Console.ReadLine());
+            Console.Write("\nIngrese dni Cliente: ");
+            string dniCli = Console.ReadLine();
+            tbCliente cliente = new tbCliente { nombreCliente = nombreCli, apellidosCliente=apellidoCli, fechaNacimiento=fechaCli, dniCliente=dniCli };
             using (var db = new conDB_EF())
             {
                 db.tbCliente.Add(cliente);

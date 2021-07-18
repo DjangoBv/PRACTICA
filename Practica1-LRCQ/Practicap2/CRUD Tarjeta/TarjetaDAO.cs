@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Practicap2.CRUD_Cliente;
 using System.Threading.Tasks;
 
 namespace Practicap2.CRUD_Pais
@@ -20,7 +21,7 @@ namespace Practicap2.CRUD_Pais
             Console.WriteLine("Lista de Tarjeta");
             foreach (var item in listaTar)
             {
-                Console.WriteLine(item.idTarjeta);
+                Console.WriteLine(item.idTarjeta + "\t" + item.numeroTarjeta + "\t" + item.tipoTarjeta + "\t" + item.modoPago + "\t" + item.fechaVencimiento + "\t" + item.idCliente);
             }
         }
         public void RegistraTarjeta()
@@ -29,7 +30,15 @@ namespace Practicap2.CRUD_Pais
             Console.WriteLine("Registrar Tarjeta");
             Console.Write("\nIngrese numero Tarjeta: ");
             string numeroTarjeta = Console.ReadLine();
-            tbTarjeta Tarjeta = new tbTarjeta { numeroTarjeta = numeroTarjeta };
+            Console.Write("\nIngrese tipo Tarjeta: ");
+            string tipTarjeta = Console.ReadLine();
+            Console.Write("\nIngrese modo Tarjeta: ");
+            string modTarjeta = Console.ReadLine();
+            Console.Write("\nIngrese fecha Vencimiento: ");
+            string fecTarjeta = Console.ReadLine();
+            Console.Write("\nIngrese id Cliente: ");
+            int idCliente2 = Convert.ToInt32(Console.ReadLine());
+            tbTarjeta Tarjeta = new tbTarjeta { numeroTarjeta = numeroTarjeta, tipoTarjeta=tipTarjeta, modoPago=modTarjeta, fechaVencimiento=fecTarjeta, idCliente = idCliente2};
             using (var db = new conDB_EF())
             {
                 db.tbTarjeta.Add(Tarjeta);

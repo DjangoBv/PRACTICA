@@ -14,6 +14,9 @@ namespace Practicap2
         static void Main(string[] args)
         {
             ClienteDAO cliDAO = new ClienteDAO();
+            //cliDAO.RegistraCliente();
+            //cliDAO.ListaCliente();
+
             PaisDAO paDAO = new PaisDAO();
             TarjetaDAO tarDAO = new TarjetaDAO();
             string rpta = "N";

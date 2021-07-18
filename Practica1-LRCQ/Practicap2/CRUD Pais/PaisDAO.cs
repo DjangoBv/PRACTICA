@@ -20,7 +20,7 @@ namespace Practicap2.CRUD_Pais
             Console.WriteLine("Lista de pais");
             foreach (var item in listaPais)
             {
-                Console.WriteLine(item.idPais);
+                Console.WriteLine(item.idPais + "\t" + item.nombrePais + "\t" + item.codigoPais);
             }
         }
         public void RegistraPais()
@@ -29,7 +29,9 @@ namespace Practicap2.CRUD_Pais
             Console.WriteLine("Registrar Pais");
             Console.Write("\nIngrese nombre Pais: ");
             string nombrePais = Console.ReadLine();
-            tbPais Pais = new tbPais { nombrePais = nombrePais };
+            Console.Write("\nIngrese codigo Pais: ");
+            string codigoPais = Console.ReadLine();
+            tbPais Pais = new tbPais { nombrePais = nombrePais, codigoPais=codigoPais };
             using (var db = new conDB_EF())
             {
                 db.tbPais.Add(Pais);
