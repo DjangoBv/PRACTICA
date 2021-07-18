@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BD_Practica1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbCliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombreCliente" Type="nvarchar" MaxLength="50" />
+          <Property Name="apellidosCliente" Type="nvarchar" MaxLength="50" />
+          <Property Name="fechaNacimiento" Type="datetime" Nullable="false" />
+          <Property Name="dniCliente" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="tbPais">
+          <Key>
+            <PropertyRef Name="idPais" />
+          </Key>
+          <Property Name="idPais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombrePais" Type="nvarchar" MaxLength="50" />
+          <Property Name="codigoPais" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tbTarjeta">
+          <Key>
+            <PropertyRef Name="idTarjeta" />
+          </Key>
+          <Property Name="idTarjeta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numeroTarjeta" Type="nvarchar" MaxLength="30" />
+          <Property Name="tipoTarjeta" Type="nvarchar" MaxLength="20" />
+          <Property Name="modoPago" Type="nvarchar" MaxLength="20" />
+          <Property Name="fechaVencimiento" Type="nvarchar" MaxLength="10" />
+          <Property Name="idCliente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbViaje">
+          <Key>
+            <PropertyRef Name="idViaje" />
+          </Key>
+          <Property Name="idViaje" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTarjeta" Type="int" Nullable="false" />
+          <Property Name="idPais" Type="int" Nullable="false" />
+          <Property Name="fechaInicioViaje" Type="datetime" Nullable="false" />
+          <Property Name="fechaFinViaje" Type="datetime" Nullable="false" />
+          <Property Name="estadoViaje" Type="nvarchar" MaxLength="1" />
+        </EntityType>
+        <Association Name="FK_dbo_tbTarjeta_dbo_tbCliente_idCliente">
+          <End Role="tbCliente" Type="Self.tbCliente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbTarjeta" Type="Self.tbTarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbCliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="tbTarjeta">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tbViaje_dbo_tbPais_idPais">
+          <End Role="tbPais" Type="Self.tbPais" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbViaje" Type="Self.tbViaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbPais">
+              <PropertyRef Name="idPais" />
+            </Principal>
+            <Dependent Role="tbViaje">
+              <PropertyRef Name="idPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta">
+          <End Role="tbTarjeta" Type="Self.tbTarjeta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbViaje" Type="Self.tbViaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTarjeta">
+              <PropertyRef Name="idTarjeta" />
+            </Principal>
+            <Dependent Role="tbViaje">
+              <PropertyRef Name="idTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_Practica1ModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbCliente" EntityType="Self.tbCliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPais" EntityType="Self.tbPais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbTarjeta" EntityType="Self.tbTarjeta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbViaje" EntityType="Self.tbViaje" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_tbTarjeta_dbo_tbCliente_idCliente" Association="Self.FK_dbo_tbTarjeta_dbo_tbCliente_idCliente">
+            <End Role="tbCliente" EntitySet="tbCliente" />
+            <End Role="tbTarjeta" EntitySet="tbTarjeta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tbViaje_dbo_tbPais_idPais" Association="Self.FK_dbo_tbViaje_dbo_tbPais_idPais">
+            <End Role="tbPais" EntitySet="tbPais" />
+            <End Role="tbViaje" EntitySet="tbViaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta" Association="Self.FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta">
+            <End Role="tbTarjeta" EntitySet="tbTarjeta" />
+            <End Role="tbViaje" EntitySet="tbViaje" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BD_Practica1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbCliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombreCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="apellidosCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dniCliente" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbTarjeta" Relationship="Self.FK_dbo_tbTarjeta_dbo_tbCliente_idCliente" FromRole="tbCliente" ToRole="tbTarjeta" />
+        </EntityType>
+        <EntityType Name="tbPais">
+          <Key>
+            <PropertyRef Name="idPais" />
+          </Key>
+          <Property Name="idPais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombrePais" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="codigoPais" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbViaje" Relationship="Self.FK_dbo_tbViaje_dbo_tbPais_idPais" FromRole="tbPais" ToRole="tbViaje" />
+        </EntityType>
+        <EntityType Name="tbTarjeta">
+          <Key>
+            <PropertyRef Name="idTarjeta" />
+          </Key>
+          <Property Name="idTarjeta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numeroTarjeta" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="tipoTarjeta" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="modoPago" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fechaVencimiento" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="idCliente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbCliente" Relationship="Self.FK_dbo_tbTarjeta_dbo_tbCliente_idCliente" FromRole="tbTarjeta" ToRole="tbCliente" />
+          <NavigationProperty Name="tbViaje" Relationship="Self.FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta" FromRole="tbTarjeta" ToRole="tbViaje" />
+        </EntityType>
+        <EntityType Name="tbViaje">
+          <Key>
+            <PropertyRef Name="idViaje" />
+          </Key>
+          <Property Name="idViaje" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTarjeta" Type="Int32" Nullable="false" />
+          <Property Name="idPais" Type="Int32" Nullable="false" />
+          <Property Name="fechaInicioViaje" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fechaFinViaje" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estadoViaje" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbPais" Relationship="Self.FK_dbo_tbViaje_dbo_tbPais_idPais" FromRole="tbViaje" ToRole="tbPais" />
+          <NavigationProperty Name="tbTarjeta" Relationship="Self.FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta" FromRole="tbViaje" ToRole="tbTarjeta" />
+        </EntityType>
+        <Association Name="FK_dbo_tbTarjeta_dbo_tbCliente_idCliente">
+          <End Role="tbCliente" Type="Self.tbCliente" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbTarjeta" Type="Self.tbTarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbCliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="tbTarjeta">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tbViaje_dbo_tbPais_idPais">
+          <End Role="tbPais" Type="Self.tbPais" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbViaje" Type="Self.tbViaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbPais">
+              <PropertyRef Name="idPais" />
+            </Principal>
+            <Dependent Role="tbViaje">
+              <PropertyRef Name="idPais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta">
+          <End Role="tbTarjeta" Type="Self.tbTarjeta" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbViaje" Type="Self.tbViaje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTarjeta">
+              <PropertyRef Name="idTarjeta" />
+            </Principal>
+            <Dependent Role="tbViaje">
+              <PropertyRef Name="idTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="conDB_EF" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tbCliente" EntityType="Self.tbCliente" />
+          <EntitySet Name="tbPais" EntityType="Self.tbPais" />
+          <EntitySet Name="tbTarjeta" EntityType="Self.tbTarjeta" />
+          <EntitySet Name="tbViaje" EntityType="Self.tbViaje" />
+          <AssociationSet Name="FK_dbo_tbTarjeta_dbo_tbCliente_idCliente" Association="Self.FK_dbo_tbTarjeta_dbo_tbCliente_idCliente">
+            <End Role="tbCliente" EntitySet="tbCliente" />
+            <End Role="tbTarjeta" EntitySet="tbTarjeta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tbViaje_dbo_tbPais_idPais" Association="Self.FK_dbo_tbViaje_dbo_tbPais_idPais">
+            <End Role="tbPais" EntitySet="tbPais" />
+            <End Role="tbViaje" EntitySet="tbViaje" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta" Association="Self.FK_dbo_tbViaje_dbo_tbTarjeta_idTarjeta">
+            <End Role="tbTarjeta" EntitySet="tbTarjeta" />
+            <End Role="tbViaje" EntitySet="tbViaje" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BD_Practica1ModelStoreContainer" CdmEntityContainer="conDB_EF">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BD_Practica1Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbCliente">
+            <EntityTypeMapping TypeName="BD_Practica1Model.tbCliente">
+              <MappingFragment StoreEntitySet="tbCliente">
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nombreCliente" ColumnName="nombreCliente" />
+                <ScalarProperty Name="apellidosCliente" ColumnName="apellidosCliente" />
+                <ScalarProperty Name="fechaNacimiento" ColumnName="fechaNacimiento" />
+                <ScalarProperty Name="dniCliente" ColumnName="dniCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbPais">
+            <EntityTypeMapping TypeName="BD_Practica1Model.tbPais">
+              <MappingFragment StoreEntitySet="tbPais">
+                <ScalarProperty Name="idPais" ColumnName="idPais" />
+                <ScalarProperty Name="nombrePais" ColumnName="nombrePais" />
+                <ScalarProperty Name="codigoPais" ColumnName="codigoPais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbTarjeta">
+            <EntityTypeMapping TypeName="BD_Practica1Model.tbTarjeta">
+              <MappingFragment StoreEntitySet="tbTarjeta">
+                <ScalarProperty Name="idTarjeta" ColumnName="idTarjeta" />
+                <ScalarProperty Name="numeroTarjeta" ColumnName="numeroTarjeta" />
+                <ScalarProperty Name="tipoTarjeta" ColumnName="tipoTarjeta" />
+                <ScalarProperty Name="modoPago" ColumnName="modoPago" />
+                <ScalarProperty Name="fechaVencimiento" ColumnName="fechaVencimiento" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbViaje">
+            <EntityTypeMapping TypeName="BD_Practica1Model.tbViaje">
+              <MappingFragment StoreEntitySet="tbViaje">
+                <ScalarProperty Name="idViaje" ColumnName="idViaje" />
+                <ScalarProperty Name="idTarjeta" ColumnName="idTarjeta" />
+                <ScalarProperty Name="idPais" ColumnName="idPais" />
+                <ScalarProperty Name="fechaInicioViaje" ColumnName="fechaInicioViaje" />
+                <ScalarProperty Name="fechaFinViaje" ColumnName="fechaFinViaje" />
+                <ScalarProperty Name="estadoViaje" ColumnName="estadoViaje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
